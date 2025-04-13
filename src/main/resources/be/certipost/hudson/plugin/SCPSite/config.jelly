@@ -18,12 +18,12 @@
   <f:entry title="${%Password/Passphrase}" field="password">
     <f:password />
   </f:entry>
-  <f:entry title="${%Keyfile}" field="keyfile">
+  <f:entry title="${%Keyfile}" field="keyfile" checkMethod="post">
     <f:textbox />
   </f:entry>
   
   <f:entry>
-    <f:validateButton title="${%Test Connection}" method="loginCheck" with="hostname,port,username,password,keyfile" />
+    <f:validateButton title="${%Test Connection}" method="loginCheck" with="hostname,port,username,password,keyfile" checkMethod="post" />
   </f:entry>
 
   <f:entry title="">

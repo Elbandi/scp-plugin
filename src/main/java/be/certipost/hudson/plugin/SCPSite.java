@@ -8,10 +8,12 @@ import hudson.model.Computer;
 import hudson.model.Descriptor;
 import hudson.model.Hudson;
 import hudson.model.Node;
+import hudson.model.Item;
 import hudson.model.Hudson.MasterComputer;
 import hudson.slaves.NodeProperty;
 import hudson.slaves.NodePropertyDescriptor;
 import hudson.util.DescribableList;
+import jenkins.model.Jenkins;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +36,7 @@ import com.jcraft.jsch.SftpException;
 import com.jcraft.jsch.UserInfo;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.verb.POST;
 
 /**
  *
@@ -392,7 +395,9 @@ public class SCPSite extends AbstractDescribableImpl<SCPSite> {
             return "";
         }
 
+        @POST
         public FormValidation doCheckKeyfile(@QueryParameter String keyfile) {
+            Jenkins.getInstance().checkPermission(Item.CONFIGURE);
             keyfile = Util.fixEmpty(keyfile);
             if (keyfile != null) {
                 File f = new File(keyfile);
@@ -404,7 +409,9 @@ public class SCPSite extends AbstractDescribableImpl<SCPSite> {
             return FormValidation.ok();
         }
 
+        @POST
         public FormValidation doLoginCheck(@QueryParameter String hostname, @QueryParameter String port, @QueryParameter String username, @QueryParameter String password, @QueryParameter String keyfile) {
+            Jenkins.getInstance().checkPermission(Item.CONFIGURE);
             hostname = Util.fixEmpty(hostname);
             if (hostname == null) {// hosts is not entered yet
                 return FormValidation.ok();
